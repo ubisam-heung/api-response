@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>com.github.ubisam-heung</groupId>
 	<artifactId>api-response</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>api-response</name>
-	<description>api-responce packages</description>
+	<description>api-response packages</description>
 	<url/>
 	<licenses>
 		<license/>
