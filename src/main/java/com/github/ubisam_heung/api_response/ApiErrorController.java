@@ -1,7 +1,10 @@
+
+
 package com.github.ubisam_heung.api_response;
 
 import java.util.Map;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -12,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
+@ConditionalOnClass(name = "org.springframework.boot.web.servlet.error.ErrorController")
 @RestController
+@Slf4j
 public class ApiErrorController implements ErrorController {
 
     private final ErrorAttributes errorAttributes;
@@ -34,6 +40,8 @@ public class ApiErrorController implements ErrorController {
             message = "요청한 리소스를 찾을 수 없습니다.";
             errorCode = "E404";
         }
+        // 일관된 에러 로그 포맷 출력
+        log.warn(ExceptionLogUtil.formatLog("ApiErrorController", "status=" + status, message + " (path=" + path + ")"));
         ApiResponse<Void> response = ApiResponse.error(errorCode, null, message, path);
         HttpStatus httpStatus = HttpStatus.resolve(status);
         if (httpStatus == null) {
